@@ -41,7 +41,7 @@ void simpleSieveOfEratosthenes(const int& prime_limit, vector<int>* primes_array
 int main(int argc, char** argv)
 {
 	if( argc == 1 ) {
-		printf("[WARNING] Usage: prime_search N\n");
+		printf("[WARNING] Usage: [binary] N\n");
 		return -1;
 	}
 
