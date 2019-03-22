@@ -33,7 +33,7 @@ using namespace std;
 */
 int get_best_segment_sum(int elements[], int& N, int& K) {
     if( K < 0 )    K = 0;
-    if( K > N )    K = N;
+    if( K > N )    K = N;    /* Limiting K drops within N */
 
     int* pre_best = new int[K+1];
     int* cur_best = new int[K+1];
@@ -63,21 +63,16 @@ int get_best_segment_sum(int elements[], int& N, int& K) {
     for( i = 0 ; i < N ; i++ ) {
 
         cur_best[0] = pre_best[0] + elements[i];    /* Boundary Case */
-        if( max_flag ) {
-            max_best = MAX( max_best , cur_best[0] );
-        } else {
-            max_flag = 1;
-            max_best = cur_best[0];
-        }
 
         for( j = 1 ; j <= K ; j++ ) {
             cur_best[j] = MAX( (pre_best[j] + elements[i]) , pre_best[j-1] );    /* Inductive Formula */
-            if( max_flag ) {
-                max_best = MAX( max_best , cur_best[j] );
-            } else {
-                max_flag = 1;
-                max_best = cur_best[j];
-            }
+        }
+
+        if( max_flag ) {
+            max_best = MAX( max_best , cur_best[K] );
+        } else {
+            max_flag = 1;
+            max_best = cur_best[K];
         }
 
 #if DEBUG
