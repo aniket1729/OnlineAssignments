@@ -1,3 +1,7 @@
+/*
+ * https://www.hackerrank.com/challenges/crush
+ */
+
 #include <bits/stdc++.h>
 
 using namespace std;

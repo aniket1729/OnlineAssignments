@@ -1,30 +1,47 @@
+/*
+ * https://www.hackerrank.com/challenges/jumping-on-the-clouds
+ */
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the minimumSwaps function below.
-int minimumSwaps(vector<int> arr) {
-    int min_swaps = 0;
-    int i, j, t;
+int jumpto(vector<int>c, int n, int at, int& jumps) {
 
-    for (i = 0 ; i < arr.size() ; i++) {
-        if ( i+1 == arr[i] ) {
-            continue;
-        }
-        j = arr[i]-1;
-        arr[i] = i+1;
-        do {
-          t = arr[j] - 1;
-          arr[j] = j + 1;
-          min_swaps++;
+    if (at == n-1 ) return 1;
+    else if (at >= n ) return 0;
 
-          j = t;
-        } while (j != i);
+    if( c[at+2] == 0 ) {
+        jumps++;
+        if ( jumpto(c, n, at+2, jumps) == 1)
+            return 1;
+        else
+          jumps--;
     }
 
-    return min_swaps;
+    if (c[at + 1] == 0) {
+      jumps++;
+      if (jumpto(c, n, at + 1, jumps) == 1)
+        return 1;
+      else
+        jumps--;
+    }
+
+    return 0;
+}
+
+// Complete the jumpingOnClouds function below.
+int jumpingOnClouds(vector<int> c) {
+    int min_jumps = 0;
+    int n = c.size(), i;
+
+    if( c[0] != 0 || c[n-1]!= 0 ) return 0;
+
+    jumpto(c, n, 0, min_jumps);
+
+    return min_jumps;
 }
 
 int main()
@@ -35,22 +52,22 @@ int main()
     cin >> n;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    string arr_temp_temp;
-    getline(cin, arr_temp_temp);
+    string c_temp_temp;
+    getline(cin, c_temp_temp);
 
-    vector<string> arr_temp = split_string(arr_temp_temp);
+    vector<string> c_temp = split_string(c_temp_temp);
 
-    vector<int> arr(n);
+    vector<int> c(n);
 
     for (int i = 0; i < n; i++) {
-        int arr_item = stoi(arr_temp[i]);
+        int c_item = stoi(c_temp[i]);
 
-        arr[i] = arr_item;
+        c[i] = c_item;
     }
 
-    int res = minimumSwaps(arr);
+    int result = jumpingOnClouds(c);
 
-    fout << res << "\n";
+    fout << result << "\n";
 
     fout.close();
 

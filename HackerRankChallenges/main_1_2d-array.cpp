@@ -1,3 +1,7 @@
+/*
+ * https://www.hackerrank.com/challenges/2d-array
+ */
+
 #include <assert.h>
 #include <limits.h>
 #include <math.h>

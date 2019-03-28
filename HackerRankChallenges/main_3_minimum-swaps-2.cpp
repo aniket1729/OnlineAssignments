@@ -1,26 +1,34 @@
+/*
+ * https://www.hackerrank.com/challenges/minimum-swaps-2
+ */
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the sockMerchant function below.
-int sockMerchant(int n, vector<int> ar) {
-    vector<int> odd_socks;
-    int pairs = 0;
+// Complete the minimumSwaps function below.
+int minimumSwaps(vector<int> arr) {
+    int min_swaps = 0;
+    int i, j, t;
 
-    for(auto sock: ar) {
-        auto itr = std::find(odd_socks.begin(), odd_socks.end(), sock);
-        if( itr != odd_socks.end() ) {
-            odd_socks.erase(itr);
-            pairs++;
-        } else {
-            odd_socks.push_back(sock);
+    for (i = 0 ; i < arr.size() ; i++) {
+        if ( i+1 == arr[i] ) {
+            continue;
         }
+        j = arr[i]-1;
+        arr[i] = i+1;
+        do {
+          t = arr[j] - 1;
+          arr[j] = j + 1;
+          min_swaps++;
+
+          j = t;
+        } while (j != i);
     }
 
-    return pairs;
-
+    return min_swaps;
 }
 
 int main()
@@ -31,22 +39,22 @@ int main()
     cin >> n;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    string ar_temp_temp;
-    getline(cin, ar_temp_temp);
+    string arr_temp_temp;
+    getline(cin, arr_temp_temp);
 
-    vector<string> ar_temp = split_string(ar_temp_temp);
+    vector<string> arr_temp = split_string(arr_temp_temp);
 
-    vector<int> ar(n);
+    vector<int> arr(n);
 
     for (int i = 0; i < n; i++) {
-        int ar_item = stoi(ar_temp[i]);
+        int arr_item = stoi(arr_temp[i]);
 
-        ar[i] = ar_item;
+        arr[i] = arr_item;
     }
 
-    int result = sockMerchant(n, ar);
+    int res = minimumSwaps(arr);
 
-    fout << result << "\n";
+    fout << res << "\n";
 
     fout.close();
 

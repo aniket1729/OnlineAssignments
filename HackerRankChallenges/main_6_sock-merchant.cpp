@@ -1,43 +1,30 @@
+/*
+ * https://www.hackerrank.com/challenges/sock-merchant
+ */
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 vector<string> split_string(string);
 
-int jumpto(vector<int>c, int n, int at, int& jumps) {
+// Complete the sockMerchant function below.
+int sockMerchant(int n, vector<int> ar) {
+    vector<int> odd_socks;
+    int pairs = 0;
 
-    if (at == n-1 ) return 1;
-    else if (at >= n ) return 0;
-
-    if( c[at+2] == 0 ) {
-        jumps++;
-        if ( jumpto(c, n, at+2, jumps) == 1)
-            return 1;
-        else
-          jumps--;
+    for(auto sock: ar) {
+        auto itr = std::find(odd_socks.begin(), odd_socks.end(), sock);
+        if( itr != odd_socks.end() ) {
+            odd_socks.erase(itr);
+            pairs++;
+        } else {
+            odd_socks.push_back(sock);
+        }
     }
 
-    if (c[at + 1] == 0) {
-      jumps++;
-      if (jumpto(c, n, at + 1, jumps) == 1)
-        return 1;
-      else
-        jumps--;
-    }
+    return pairs;
 
-    return 0;
-}
-
-// Complete the jumpingOnClouds function below.
-int jumpingOnClouds(vector<int> c) {
-    int min_jumps = 0;
-    int n = c.size(), i;
-
-    if( c[0] != 0 || c[n-1]!= 0 ) return 0;
-
-    jumpto(c, n, 0, min_jumps);
-
-    return min_jumps;
 }
 
 int main()
@@ -48,20 +35,20 @@ int main()
     cin >> n;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    string c_temp_temp;
-    getline(cin, c_temp_temp);
+    string ar_temp_temp;
+    getline(cin, ar_temp_temp);
 
-    vector<string> c_temp = split_string(c_temp_temp);
+    vector<string> ar_temp = split_string(ar_temp_temp);
 
-    vector<int> c(n);
+    vector<int> ar(n);
 
     for (int i = 0; i < n; i++) {
-        int c_item = stoi(c_temp[i]);
+        int ar_item = stoi(ar_temp[i]);
 
-        c[i] = c_item;
+        ar[i] = ar_item;
     }
 
-    int result = jumpingOnClouds(c);
+    int result = sockMerchant(n, ar);
 
     fout << result << "\n";
 
