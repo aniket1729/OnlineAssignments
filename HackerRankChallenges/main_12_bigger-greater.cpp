@@ -1,6 +1,6 @@
 /*
- * https://www.hackerrank.com/challenges/bigger-is-greater/problem
-*/
+ * https://www.hackerrank.com/challenges/bigger-is-greater
+ */
 
 #include <bits/stdc++.h>
 
@@ -10,26 +10,26 @@ using namespace std;
 string biggerIsGreater(string w)
 {
     int i = w.length() - 1;
-    while ( i > 0 && w[i - 1] >= w[i] ) /* Bigger is already at higher position */
+    while ( i > 0 && w[i - 1] >= w[i] )    /* Bigger is already at higher position: Loop to check if Greater (higher Alphabetical order) possible */
     {
         i--;
     }
 
-    if( i == 0 )    /* Possible bigger at higher positions */
+    if( i == 0 )    /* Possible biggers at higher positions: No Greater possible */
         w = "no answer";
-    else    /* (i-1) is Lower than i */
+    else            /* (i-1) is Lower than i : Yes a Greater possible*/
     {
         int j = w.length() - 1;
-        while ( w[j] <= w[i-1] )
+        while ( w[j] <= w[i-1] )    /* Looking for 1st character to be placed at right position for Greater */
         {
             j--;
         }
-        char temp = w[j];
+        char temp = w[j];           /* 1st replacement for Greater */
         w[j] = w[i-1];
         w[i-1] = temp;
 
         j = w.length() - 1;
-        while( i < j )
+        while( i < j )              /* Rest all character in alphabetical order to complete Greater */
         {
             temp = w[j];
             w[j] = w[i];
