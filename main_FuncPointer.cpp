@@ -66,9 +66,11 @@ int main(int argc, char** argv)
 
     int (**oper_func_ptr_6)(const char*) = new OperFuncPtr[2];
     oper_func_ptr_6[0] = encode;
+    oper_func_ptr_6[0](DATA);
 
     OperFuncPtr* oper_func_ptr_7 = (OperFuncPtr*) calloc( 2, sizeof( int(*)(const char*) ));
     oper_func_ptr_7[1] = decode;
+    oper_func_ptr_7[1](DATA);
 
 
     cout << endl;
@@ -84,7 +86,7 @@ int main(int argc, char** argv)
 
     OperFuncPtr proc_func_ptr_5[] = {MyDevice::save_in_temp_buffer, &MyDevice::process_data, encode, decode};
     proc_func_ptr_5[0] = MyDevice::save_in_temp_buffer;
-    proc_func_ptr_5[2](DATA);
+    proc_func_ptr_5[0](DATA);
     //or other way
 
 
@@ -102,6 +104,7 @@ int main(int argc, char** argv)
 
     // transfer_mem_func_ptr_1(DATA);    //COMPILE ERROR
     // (objDevice.transfer_mem_func_ptr_1)(DATA);    //COMPILE ERROR
+    // objDevice.transfer_mem_func_ptr_1(DATA);    //COMPILE ERROR
     (objDevice.*transfer_mem_func_ptr_1)(DATA);
 
 
@@ -116,20 +119,26 @@ int main(int argc, char** argv)
     int (MyDevice::*transfer_mem_func_ptr_3[2])(const char*) = {};
     //int (MyDevice::*transfer_mem_func_ptr_3)[2](const char*);    //IMPROPER (as array of function)
     transfer_mem_func_ptr_3[0] = &MyDevice::send;
+    (objDevice.*transfer_mem_func_ptr_3[0])(DATA);
+    // (objDevice.*transfer_mem_func_ptr_3)[0](DATA);    //COMPILE ERROR
 
     TransferMemFuncPtr transfer_mem_func_ptr_4[2] = {};
     transfer_mem_func_ptr_4[1] = &MyDevice::recv;
+    (objDevice.*transfer_mem_func_ptr_4[1])(DATA);
 
 
     #define CALL_MEMBER_FN_PTR(object, ptrToMember)  ((object).*(ptrToMember))
     CALL_MEMBER_FN_PTR(objDevice, transfer_mem_func_ptr_1)(DATA);
+    CALL_MEMBER_FN_PTR(objDevice, transfer_mem_func_ptr_4[1])(DATA);
 
 
     int (MyDevice::**transfer_mem_func_ptr_6)(const char*) = new TransferMemFuncPtr[2];
     transfer_mem_func_ptr_6[0] = &MyDevice::send;
+    CALL_MEMBER_FN_PTR(objDevice, transfer_mem_func_ptr_6[0])(DATA);
 
     TransferMemFuncPtr* transfer_mem_func_ptr_7 = (TransferMemFuncPtr*) calloc( 2, sizeof( int(MyDevice::*)(const char*) ));
     transfer_mem_func_ptr_7[1] = &MyDevice::recv;
+    CALL_MEMBER_FN_PTR(objDevice, transfer_mem_func_ptr_7[1])(DATA);
 
 
     void (MyDevice::*const_func_ptr)(void) const;
